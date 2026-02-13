@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const pixel = hitCtx.getImageData(x, y, 1, 1).data; // [r,g,b,a]
             const alpha = pixel[3];
             if (alpha > 0) {
-                event.stopPropagation();
+                event.stopImmediatePropagation();
                 isMoving = !isMoving;
                 return;
             }
@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
             isMoving = false;
         } catch (e) {
             // If getImageData is blocked, use bounding-box behavior
-            event.stopPropagation();
+            event.stopImmediatePropagation();
             isMoving = !isMoving;
         }
     });
@@ -95,8 +95,6 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Move square while active */
     gameContainer.addEventListener("mousemove", updatePosition);
 
-    /* Stop movement when clicking container */
-    gameContainer.addEventListener("click", () => {
-        isMoving = false;
-    });
+    /* (Removed unconditional container click handler to avoid
+       immediately cancelling toggles from pixel-hit tests) */
 });

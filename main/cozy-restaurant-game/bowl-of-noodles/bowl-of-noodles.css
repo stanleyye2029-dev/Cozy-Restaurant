@@ -25,13 +25,19 @@ main {
    Draggable Square
 ============================== */
 #draggable-item {
-    width: 500px;
-    height: 500px;
-    background-image: url('../../../assets/bowl-of-noodles-pixilart.png');
-    background-size: cover;
+    display: block;
     position: absolute;
     top: 0;
     left: 0;
-    cursor: pointer;
+    cursor: grab;
     transition: left 0.01s linear, top 0.01s linear;
+
+    /* Let the image determine its own size */
+    width: auto;
+    height: auto;
+    max-width: none;
+
+    /* Prevent selection/drag artifacts */
+    -webkit-user-drag: none;
+    user-select: none;
 }

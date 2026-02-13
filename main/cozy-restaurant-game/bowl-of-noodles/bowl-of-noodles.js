@@ -23,10 +23,73 @@ document.addEventListener("DOMContentLoaded", () => {
         draggableItem.style.top = `${newY}px`;
     }
 
-    /* Toggle movement when square is clicked */
-    draggableItem.addEventListener("click", (event) => {
-        event.stopPropagation();
-        isMoving = !isMoving;
+    /* Prevent browser's native image dragging which interferes with custom drag */
+    draggableItem.addEventListener('dragstart', (e) => e.preventDefault());
+
+    /* -------------------------------
+       Pixel-perfect hit testing
+       - Draw the displayed image into an offscreen canvas
+       - On container clicks, check the clicked pixel's alpha
+       - If alpha > 0 treat it as a click on the bowl; otherwise ignore
+       - If getImageData is blocked by CORS, fall back to bounding-box click
+    ------------------------------- */
+    const hitCanvas = document.createElement('canvas');
+    const hitCtx = hitCanvas.getContext('2d');
+
+    function updateHitCanvas() {
+        const w = Math.max(1, draggableItem.clientWidth);
+        const h = Math.max(1, draggableItem.clientHeight);
+        hitCanvas.width = w;
+        hitCanvas.height = h;
+        try {
+            hitCtx.clearRect(0, 0, w, h);
+            hitCtx.drawImage(draggableItem, 0, 0, w, h);
+        } catch (e) {
+            // drawing may fail if image is not ready or cross-origin; ignore
+        }
+    }
+
+    if (draggableItem.complete) updateHitCanvas();
+    draggableItem.addEventListener('load', updateHitCanvas);
+    window.addEventListener('resize', updateHitCanvas);
+
+    /* Use container click to decide whether click was on visible pixel */
+    gameContainer.addEventListener('click', (event) => {
+        const containerRect = gameContainer.getBoundingClientRect();
+
+        const clickX = event.clientX - containerRect.left;
+        const clickY = event.clientY - containerRect.top;
+
+        const imgLeft = draggableItem.offsetLeft;
+        const imgTop = draggableItem.offsetTop;
+
+        const x = Math.floor(clickX - imgLeft);
+        const y = Math.floor(clickY - imgTop);
+
+        const insideBox =
+            x >= 0 && y >= 0 && x < draggableItem.clientWidth && y < draggableItem.clientHeight;
+
+        if (!insideBox) {
+            isMoving = false;
+            return;
+        }
+
+        // Try pixel test; if it fails (CORS/tainted canvas) fall back to bounding-box
+        try {
+            const pixel = hitCtx.getImageData(x, y, 1, 1).data; // [r,g,b,a]
+            const alpha = pixel[3];
+            if (alpha > 0) {
+                event.stopPropagation();
+                isMoving = !isMoving;
+                return;
+            }
+            // clicked a transparent pixel
+            isMoving = false;
+        } catch (e) {
+            // If getImageData is blocked, use bounding-box behavior
+            event.stopPropagation();
+            isMoving = !isMoving;
+        }
     });
 
     /* Move square while active */

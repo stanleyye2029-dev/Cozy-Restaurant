@@ -16,7 +16,7 @@ body {
 main {
     width: 100vw;
     height: 100vh;
-    background-color: #ffffff;
+    background-color: #000000;
     position: relative;
     overflow: hidden;
 }
@@ -40,4 +40,44 @@ main {
     /* Prevent selection/drag artifacts */
     -webkit-user-drag: none;
     user-select: none;
+}
+
+/* Steam particle (softer, blurred, slight horizontal sway) */
+.steam {
+    position: absolute;
+    pointer-events: none;
+    will-change: transform, opacity, filter;
+    animation: steamUp 3s ease-out forwards;
+    opacity: 0.85;
+    filter: blur(2px) saturate(0.9);
+    transform-origin: center bottom;
+    mix-blend-mode: screen;
+}
+
+@keyframes steamUp {
+    0% {
+        transform: translate3d(0, 0, 0) scale(1);
+        opacity: 0.85;
+        filter: blur(1px) saturate(0.95);
+    }
+    25% {
+        transform: translate3d(6px, -12px, 0) scale(1.02);
+        opacity: 0.7;
+        filter: blur(1.6px) saturate(0.9);
+    }
+    50% {
+        transform: translate3d(-6px, -24px, 0) scale(1.03);
+        opacity: 0.45;
+        filter: blur(2px) saturate(0.85);
+    }
+    75% {
+        transform: translate3d(3px, -36px, 0) scale(1.04);
+        opacity: 0.2;
+        filter: blur(2.4px) saturate(0.8);
+    }
+    100% {
+        transform: translate3d(0, -48px, 0) scale(1.05);
+        opacity: 0;
+        filter: blur(3px) saturate(0.75);
+    }
 }

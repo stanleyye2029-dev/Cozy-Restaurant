@@ -1,0 +1,33 @@
+.image-button {
+  display: inline-block;
+  width: 700px;              /* adjust size */
+  height: 160px;              /* adjust size */
+  background-image: url("../../assets/play-button-pixilart.png");
+  background-size: cover;
+  background-position: center;
+  text-decoration: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  cursor: pointer;
+  position: absolute;
+  top: 200px; /* adjust position */
+  left: -80px; /* adjust position */
+}
+/* Hover effect */
+.image-button:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+body {
+  font-family: "Pixelify Sans", sans-serif;
+}
+
+#menu-title {
+    font-size: 100px;
+    color: #6b5541;
+    /* below is sigma */
+    text-shadow: 4px 4px 0 #c9a66b, 8px 8px 0 #6b5541;
+    position: absolute;
+    top: 0px;
+    left: 30px;
+}

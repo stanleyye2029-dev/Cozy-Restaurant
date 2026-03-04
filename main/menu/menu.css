@@ -20,6 +20,10 @@
 
 body {
   font-family: "Pixelify Sans", sans-serif;
+  background-image: url("../../assets/day-bg.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 
 #menu-title {

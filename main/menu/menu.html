@@ -10,12 +10,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <audio id="background-music" loop>
+        <source src="../../assets/music/casual_afternoon.wav" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>
     <div class="menu-container">
         <h1 id="menu-title">Cozy Restaurant</h1>
         <div class="menu-items">
-            <a href="../cozy-restaurant-game/bowl-of-noodles/bowl-of-noodles.html" class="image-button"></a>
+            <a href="../cozy-restaurant-game/main_restaurant/main_restaurant.html" class="image-button"></a>
             <!--the width of the screen is 1300px height is 730px-->
         </div>
     </div>
+
+    <script>
+        document.body.addEventListener('click', function startMusic() {
+            const music = document.getElementById('background-music');
+            music.play().catch(err => console.log('Audio play failed:', err));
+            document.body.removeEventListener('click', startMusic);
+        });
+    </script>
 </body>
 </html>

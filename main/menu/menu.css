@@ -2,7 +2,7 @@
   display: inline-block;
   width: 700px;              /* adjust size */
   height: 160px;              /* adjust size */
-  background-image: url("../../assets/play-button-pixilart.png");
+  background-image: url("../../assets/pictures/play-button-pixilart.png");
   background-size: cover;
   background-position: center;
   text-decoration: none;
@@ -20,7 +20,7 @@
 
 body {
   font-family: "Pixelify Sans", sans-serif;
-  background-image: url("../../assets/day-bg.png");
+  background-image: url("../../assets/pictures/day-bg.png");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;

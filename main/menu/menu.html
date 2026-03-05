@@ -23,11 +23,11 @@
     </div>
 
     <script>
-        document.body.addEventListener('click', function startMusic() {
+        document.addEventListener('click', function startMusic() {
             const music = document.getElementById('background-music');
             music.play().catch(err => console.log('Audio play failed:', err));
-            document.body.removeEventListener('click', startMusic);
-        });
+            document.removeEventListener('click', startMusic);
+        }, true);
     </script>
 </body>
 </html>

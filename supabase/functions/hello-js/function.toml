@@ -1,0 +1,3 @@
+# supabase/functions/hello-js/function.toml
+name = "hello-js"
+lang = "js"

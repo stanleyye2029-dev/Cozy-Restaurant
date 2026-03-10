@@ -1,0 +1,3 @@
+-- supabase/seed.sql
+-- Optional example seed data (comment out if you don't want seeds run)
+-- INSERT INTO "notes" (user_id, title, body) VALUES ('00000000-0000-0000-0000-000000000000', 'Welcome', 'This is a seeded note.');

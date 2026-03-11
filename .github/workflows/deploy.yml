@@ -15,6 +15,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Debug run marker
+        run: |
+          echo "=== DEPLOY WORKFLOW STARTED ==="
+          echo "GITHUB_REF: $GITHUB_REF"
+          echo "GITHUB_SHA: $GITHUB_SHA"
+          echo "GITHUB_ACTOR: $GITHUB_ACTOR"
+          echo "Listing workflows for visibility:"
+          ls -la .github/workflows || true
+          echo "Listing supabase functions directory (if present):"
+          ls -la supabase/functions || true
+
       - name: Setup Supabase CLI
         uses: supabase/setup-cli@v1
         with:

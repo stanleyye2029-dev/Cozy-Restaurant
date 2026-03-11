@@ -1,32 +1,26 @@
-name: Deploy to Supabase Hosting
+name: Deploy static root to Supabase Hosting
 
 on:
   push:
-    branches: [ main ] # change to your deploy branch if needed
+    branches: [ main ]  # change to your deploy branch if needed
 
 permissions:
   contents: read
 
 env:
-  BUILD_DIR: ./build  # change to ./dist or ./out if needed
+  BUILD_DIR: ./   # deploy repo root
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build
-        run: npm run build
+      - name: List repo (for debug)
+        run: |
+          echo "Repo root files:"
+          ls -la
 
       - name: Validate SUPABASE_ACCESS_TOKEN
         run: |
@@ -47,4 +41,8 @@ jobs:
           echo "$SUPABASE_ACCESS_TOKEN" | supabase login --access-token -
 
       - name: Deploy to Supabase Hosting
-        run: supabase hosting deploy --project-ref claiocujbaffmmtbuexv --dir ${{ env.BUILD_DIR }}
+        run: |
+          if [ ! -d "${{ env.BUILD_DIR }}" ] && [ ! -f "${{ env.BUILD_DIR }}" ]; then
+            echo "Error: BUILD_DIR '${{ env.BUILD_DIR }}' does not exist in the repo"; exit 1;
+          fi
+          supabase hosting deploy --project-ref claiocujbaffmmtbuexv --dir ${{ env.BUILD_DIR }}

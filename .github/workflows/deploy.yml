@@ -28,10 +28,9 @@ jobs:
             echo "Error: SUPABASE_ACCESS_TOKEN is not set"; exit 1;
           fi
 
-      - name: Install Supabase CLI
+      - name: Install Supabase CLI (Deb install script)
         run: |
-          curl -sL "https://github.com/supabase/cli/releases/latest/download/supabase_$(uname -s)_$(uname -m).tar.gz" | tar -xz
-          sudo mv supabase /usr/local/bin/supabase
+          curl -sL https://deb.supabase.com/cli/install | sh
           supabase --version
 
       - name: Supabase login (CI)

@@ -2,7 +2,7 @@ name: Deploy static root to Supabase Hosting
 
 on:
   push:
-    branches: [ main ]  # change to your deploy branch if needed
+    branches: [ main ]
 
 permissions:
   contents: read
@@ -55,22 +55,6 @@ jobs:
           sudo chmod +x /usr/local/bin/supabase
           echo "Installed to /usr/local/bin/supabase"
           supabase --version
-
-      - name: Fallback: Install Supabase CLI (Debian installer debug)
-        if: failure() && steps.install_explicit.outcome != 'success'
-        id: install_deb_debug
-        run: |
-          set -x
-          echo "Explicit install failed — running Debian installer in debug mode"
-          # Run the installer with -x so we can see steps
-          curl -sL https://deb.supabase.com/cli/install | sh -x
-          echo "Check /usr/local/bin for supabase binary"
-          ls -la /usr/local/bin | grep supabase || true
-          echo "which supabase:"
-          which supabase || true
-          echo "echo \$PATH: $PATH"
-          echo "Attempt supabase --version (may fail if not on PATH)"
-          supabase --version || true
 
       - name: Final verify supabase on PATH
         run: |

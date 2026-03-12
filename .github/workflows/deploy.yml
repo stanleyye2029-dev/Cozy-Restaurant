@@ -18,6 +18,7 @@ jobs:
         run: |
           curl -fsSL https://supabase.com/install.sh | sh
           echo "$HOME/.local/bin" >> $GITHUB_PATH
+          echo "$HOME/bin" >> $GITHUB_PATH
 
       - name: Verify CLI
         run: supabase --version

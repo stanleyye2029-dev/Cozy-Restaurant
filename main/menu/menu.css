@@ -1,37 +1,94 @@
-.image-button {
-  display: inline-block;
-  width: 700px;              /* adjust size */
-  height: 160px;              /* adjust size */
-  background-image: url("../../assets/pictures/play-button-pixilart.png");
-  background-size: cover;
-  background-position: center;
-  text-decoration: none;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-  cursor: pointer;
-  position: absolute;
-  top: 200px; /* adjust position */
-  left: -80px; /* adjust position */
-}
-/* Hover effect */
-.image-button:hover {
-  transform: scale(1.05);
-  opacity: 0.9;
-}
-
+/* ---------------- BODY ---------------- */
 body {
-  font-family: "Pixelify Sans", sans-serif;
-  background-image: url("../../assets/pictures/day-bg.png");
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+    font-family: "Pixelify Sans", sans-serif;
+    background-image: url("../../assets/pictures/day-bg.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
+/* ---------------- MENU TITLE ---------------- */
 #menu-title {
     font-size: 100px;
     color: #6b5541;
-    /* below is sigma */
     text-shadow: 4px 4px 0 #c9a66b, 8px 8px 0 #6b5541;
     position: absolute;
     top: 0px;
     left: 30px;
+}
+
+/* ---------------- IMAGE BUTTON ---------------- */
+.image-button {
+    display: inline-block;
+    width: 700px;
+    height: 160px;
+    background-image: url("../../assets/pictures/play-button-pixilart.png");
+    background-size: cover;
+    background-position: center;
+    text-decoration: none;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    cursor: pointer;
+    position: absolute;
+    top: 200px;
+    left: -80px;
+}
+
+.image-button:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+/* ---------------- VOLUME BUTTON ---------------- */
+#volumeBtn {
+    position: fixed;
+    top: 20px;
+    right: 80px; /* leave space for settings */
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.1s ease, color 0.2s ease;
+    z-index: 1000;
+}
+
+#volumeBtn .material-symbols-outlined {
+    font-size: 32px;
+    color: #ffffff;
+    transition: transform 0.1s ease, color 0.2s ease;
+}
+
+#volumeBtn:hover .material-symbols-outlined {
+    transform: scale(1.2);
+    color: #ffdd57;
+}
+
+#volumeBtn:active .material-symbols-outlined {
+    transform: scale(0.9);
+}
+
+/* ---------------- SETTINGS BUTTON ---------------- */
+#settingsBtn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1000;
+}
+
+#settingsBtn .material-symbols-outlined {
+    font-size: 32px;
+    color: #ffffff;
+    transition: transform 0.2s ease, color 0.2s ease; /* smooth hover + rotation */
+}
+
+#settingsBtn:hover .material-symbols-outlined {
+    transform: scale(1.2) rotate(60deg); /* scale + spin */
+    color: #ffdd57;
+}
+
+#settingsBtn:active .material-symbols-outlined {
+    transform: scale(0.9) rotate(0deg); /* click pop resets rotation */
 }

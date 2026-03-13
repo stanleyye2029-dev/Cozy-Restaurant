@@ -4,30 +4,137 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cozy Restaurant</title>
+
+    <!-- CSS -->
     <link rel="stylesheet" href="menu.css">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
 </head>
+
 <body>
+
+    <!-- Background Music -->
     <audio id="background-music" loop>
         <source src="../../assets/music/casual_afternoon.wav" type="audio/wav">
         Your browser does not support the audio element.
     </audio>
+
+    <!-- Volume Button -->
+    <button id="volumeBtn">
+        <span id="volumeIcon" class="material-symbols-outlined">volume_up</span>
+    </button>
+
+    <!-- Settings Button -->
+    <button id="settingsBtn">
+        <span class="material-symbols-outlined">settings</span>
+    </button>
+
+    <!-- Menu Section -->
     <div class="menu-container">
+
         <h1 id="menu-title">Cozy Restaurant</h1>
+
         <div class="menu-items">
             <a href="../cozy-restaurant-game/main_restaurant/main_restaurant.html" class="image-button"></a>
-            <!--the width of the screen is 1300px height is 730px-->
         </div>
+
     </div>
 
-    <script>
-        document.addEventListener('click', function startMusic() {
-            const music = document.getElementById('background-music');
-            music.play().catch(err => console.log('Audio play failed:', err));
-            document.removeEventListener('click', startMusic);
-        }, true);
-    </script>
+<script>
+
+    /* ---------------- AUDIO MANAGER ---------------- */
+
+    const AudioManager = {
+
+        music: document.getElementById("background-music"),
+        muted: false,
+
+        sounds: {},
+
+        startMusic() {
+            if (this.music.paused) {
+                this.music.play().catch(err => console.log("Audio play failed:", err));
+            }
+        },
+
+        toggleMute() {
+            this.muted = !this.muted;
+            this.music.muted = this.muted;
+            return this.muted;
+        },
+
+        playSound(name) {
+
+            if (!this.sounds[name]) {
+                const audio = new Audio(`../../assets/sfx/${name}.wav`);
+                this.sounds[name] = audio;
+            }
+
+            const sound = this.sounds[name];
+
+            sound.currentTime = 0;
+            sound.play();
+        }
+
+    };
+
+
+    /* ---------------- INITIAL MUSIC START ---------------- */
+
+    document.addEventListener("click", function startMusic() {
+
+        AudioManager.startMusic();
+
+        document.removeEventListener("click", startMusic);
+
+    }, true);
+
+
+
+    /* ---------------- GLOBAL CLICK SOUND ---------------- */
+
+    document.addEventListener("mousedown", (event) => {
+
+        if (event.target.closest("button, a")) {
+            AudioManager.playSound("click");
+        }
+
+    });
+
+
+
+    /* ---------------- VOLUME BUTTON ---------------- */
+
+    const volumeBtn = document.getElementById("volumeBtn");
+    const volumeIcon = document.getElementById("volumeIcon");
+
+    volumeBtn.onclick = () => {
+
+        const muted = AudioManager.toggleMute();
+
+        volumeIcon.textContent = muted ? "volume_off" : "volume_up";
+
+    };
+
+
+
+    /* ---------------- SETTINGS BUTTON ---------------- */
+
+    const settingsBtn = document.getElementById("settingsBtn");
+
+    settingsBtn.onclick = () => {
+
+        alert("Settings clicked!"); // placeholder for future settings menu
+
+    };
+
+</script>
+
 </body>
 </html>

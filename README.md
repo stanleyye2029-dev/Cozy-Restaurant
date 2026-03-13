@@ -4,8 +4,8 @@
         <h1>Cozy Restaurant</h1>
         <h2>Play Now:</h2>
         <ul>
-            <li><p>Github Page Site: <a href="https://stanleyye2029-dev.github.io/Cozy-Restaurant/" target="_blank">https://stanleyye2029-dev.github.io/Cozy-Restaurant/</a></p></li>
-            <li>im using cloudflare pages now</li>
+            <li><p>Official Cloudflare Page: <a href="https://cozy-restaurant.pages.dev/main/menu/menu">Cozy-Restaurant (Cloudflare)</a></p>
+            </li>
         </ul>
     </body>
 </html>

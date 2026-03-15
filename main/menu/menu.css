@@ -17,7 +17,7 @@ body {
     left: 30px;
 }
 
-/* ---------------- IMAGE BUTTON ---------------- */
+/* ---------------- PLAY BUTTON ---------------- */
 .image-button {
     display: inline-block;
     width: 700px;
@@ -25,14 +25,12 @@ body {
     background-image: url("../../assets/pictures/play-button-pixilart.png");
     background-size: cover;
     background-position: center;
-    text-decoration: none;
-    transition: transform 0.2s ease, opacity 0.2s ease;
     cursor: pointer;
     position: absolute;
     top: 200px;
     left: -80px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
 }
-
 .image-button:hover {
     transform: scale(1.05);
     opacity: 0.9;
@@ -42,26 +40,22 @@ body {
 #volumeBtn {
     position: fixed;
     top: 20px;
-    right: 80px; /* leave space for settings */
+    right: 80px;
     background: transparent;
     border: none;
     cursor: pointer;
     padding: 0;
-    transition: transform 0.1s ease, color 0.2s ease;
     z-index: 1000;
 }
-
 #volumeBtn .material-symbols-outlined {
     font-size: 32px;
     color: #ffffff;
     transition: transform 0.1s ease, color 0.2s ease;
 }
-
 #volumeBtn:hover .material-symbols-outlined {
     transform: scale(1.2);
     color: #ffdd57;
 }
-
 #volumeBtn:active .material-symbols-outlined {
     transform: scale(0.9);
 }
@@ -77,18 +71,91 @@ body {
     padding: 0;
     z-index: 1000;
 }
-
 #settingsBtn .material-symbols-outlined {
     font-size: 32px;
     color: #ffffff;
-    transition: transform 0.2s ease, color 0.2s ease; /* smooth hover + rotation */
+    transition: transform 0.2s ease, color 0.2s ease;
 }
-
 #settingsBtn:hover .material-symbols-outlined {
-    transform: scale(1.2) rotate(60deg); /* scale + spin */
+    transform: scale(1.2) rotate(60deg);
     color: #ffdd57;
 }
-
 #settingsBtn:active .material-symbols-outlined {
-    transform: scale(0.9) rotate(0deg); /* click pop resets rotation */
+    transform: scale(0.9) rotate(0deg);
+}
+
+/* ---------------- SETTINGS PANEL ---------------- */
+.settings-panel {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(5px);
+    z-index: 2000;
+}
+.settings-panel.hidden {
+    display: none;
+}
+
+.settings-box {
+    background: #f4e6c9;
+    border: 4px solid #6b5541;
+    padding: 30px;
+    width: 360px;
+    max-height: 80%;
+    overflow-y: auto;
+    text-align: center;
+    box-shadow: 6px 6px 0 #6b5541;
+    opacity: 0;
+    transform: translateY(-15px);
+    transition: all 0.4s ease;
+}
+.settings-box.slideIn {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ---------------- SECTION STYLES ---------------- */
+.section {
+    margin-bottom: 20px;
+}
+.save-section .clear-btn {
+    background: #ff5c5c;
+    border: 2px solid red;
+    color: white;
+    margin-left: 10px;
+}
+.save-section .warning {
+    font-size: 12px;
+    color: red;
+    margin-top: 5px;
+}
+
+/* ---------------- SETTINGS ELEMENTS ---------------- */
+.settings-box h2 {
+    margin-top: 0;
+}
+.setting {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+}
+.setting button {
+    font-family: "Pixelify Sans", sans-serif;
+    border: none;
+    background: #c9a66b;
+    padding: 4px 12px;
+    cursor: pointer;
+}
+.setting button:hover {
+    background: #b89255;
+}
+#volumeSlider {
+    width: 140px;
+}
+#closeSettings {
+    margin-top: 10px;
 }

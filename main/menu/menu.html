@@ -45,33 +45,44 @@
     <!-- SETTINGS PANEL -->
     <div id="settingsPanel" class="settings-panel hidden">
         <div class="settings-box">
+            <div class="settings-content">
 
-            <!-- SAVE SECTION -->
-            <div class="section save-section">
-                <h2>Save Settings</h2>
-                <button id="saveSettingsBtn">Save</button>
-                <button id="clearSettingsBtn" class="clear-btn">Clear Save</button>
-                <p class="warning">Warning: Clearing will reset all settings to default!</p>
+                <!-- SAVE SECTION -->
+                <div class="section save-section">
+                    <h2>Save Settings</h2>
+                    <button id="saveSettingsBtn">Save</button>
+                    <button id="clearSettingsBtn" class="clear-btn">Clear Save</button>
+                    <p class="warning">Warning: Clearing will reset all settings to default!</p>
+
+                    <!-- Export / Import -->
+                    <div class="export-import">
+                        <button id="exportSaveBtn">Export Save</button>
+                        <button id="importSaveBtn">Import Save</button>
+                        <textarea id="saveDataTextarea" placeholder="Paste exported save here"></textarea>
+                    </div>
+                </div>
+                <hr class="section-dividers">
+
+                <!-- MUSIC SECTION -->
+                <div class="section music-section">
+                    <h2>Music Settings</h2>
+                    <div class="setting">
+                        <span>Master Music</span>
+                        <button id="masterMusicToggle">On</button>
+                    </div>
+                    <div class="setting">
+                        <span>Master Volume</span>
+                        <input id="volumeSlider" type="range" min="0" max="1" step="0.01">
+                    </div>
+                    <div class="setting">
+                        <span>SFX</span>
+                        <button id="sfxToggle">On</button>
+                    </div>
+                </div>
+                <hr class="section-dividers">
+
+                <button id="closeSettings">Close</button>
             </div>
-
-            <!-- MUSIC SECTION -->
-            <div class="section music-section">
-                <h2>Music Settings</h2>
-                <div class="setting">
-                    <span>Master Music</span>
-                    <button id="masterMusicToggle">On</button>
-                </div>
-                <div class="setting">
-                    <span>Master Volume</span>
-                    <input id="volumeSlider" type="range" min="0" max="1" step="0.01">
-                </div>
-                <div class="setting">
-                    <span>SFX</span>
-                    <button id="sfxToggle">On</button>
-                </div>
-            </div>
-
-            <button id="closeSettings">Close</button>
         </div>
     </div>
 
@@ -161,6 +172,11 @@ const sfxToggle = document.getElementById("sfxToggle");
 const saveSettingsBtn = document.getElementById("saveSettingsBtn");
 const clearSettingsBtn = document.getElementById("clearSettingsBtn");
 
+/* Export/Import elements */
+const exportSaveBtn = document.getElementById("exportSaveBtn");
+const importSaveBtn = document.getElementById("importSaveBtn");
+const saveDataTextarea = document.getElementById("saveDataTextarea");
+
 /* ---------------- SYNC UI ---------------- */
 function updateUI() {
     if(!AudioManager.masterMusic){
@@ -244,6 +260,48 @@ function loadSettings(){
 }
 loadSettings();
 updateUI();
+
+/* ---------------- EXPORT SAVE ---------------- */
+exportSaveBtn.onclick = () => {
+    const settings = {
+        masterMusic: AudioManager.masterMusic,
+        muted: AudioManager.muted,
+        sfx: AudioManager.sfxEnabled,
+        volume: AudioManager.volume
+    };
+    saveDataTextarea.value = JSON.stringify(settings);
+    saveDataTextarea.select();
+    document.execCommand("copy");
+    alert("Save exported! You can copy it.");
+};
+
+/* ---------------- IMPORT SAVE ---------------- */
+importSaveBtn.onclick = () => {
+    const data = saveDataTextarea.value.trim();
+    if(!data) return alert("Please paste a valid save string.");
+    try {
+        const settings = JSON.parse(data);
+
+        if(typeof settings.masterMusic !== "boolean" ||
+           typeof settings.muted !== "boolean" ||
+           typeof settings.sfx !== "boolean" ||
+           typeof settings.volume !== "number") {
+            throw new Error("Invalid format");
+        }
+
+        AudioManager.masterMusic = settings.masterMusic;
+        AudioManager.muted = settings.muted;
+        AudioManager.sfxEnabled = settings.sfx;
+        AudioManager.volume = settings.volume;
+        AudioManager.updateMusicState();
+        updateUI();
+        saveSettings();
+        alert("Save imported successfully!");
+    } catch(e) {
+        alert("Failed to import save: Invalid data.");
+        console.error(e);
+    }
+};
 </script>
 
 </body>

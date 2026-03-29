@@ -1,3 +1,11 @@
+* {
+    /*box-sizing: border-box;
+    margin: 0;
+    padding: 0;*/
+    /*well, we don't actually need this right now since the menu looks fine already,
+    but it might be useful for later on, so I'll just leave it here commented out for now :)*/
+}
+
 /* ---------------- BODY ---------------- */
 body {
     font-family: "Pixelify Sans", sans-serif;

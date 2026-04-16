@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Position Absolute</title>
+
+        <!--STYLES-->
+
+        <style>
+            body {
+                margin: 0;
+                min-height: 100vh;
+                background: #d7e1f2;
+                font-family: Inter, system-ui, sans-serif;
+            }
+
+            #fake-background {
+                position: fixed;
+                inset: 0;
+                background-image: url(assets/pictures/fake-background.png);
+                background-size: cover;
+                background-position: center;
+                z-index: -1;
+                opacity: 0.8;
+            }
+
+            #fake-window {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                width: 760px;
+                height: 160px;
+                background: #ffffff;
+                border-radius: 0;
+                border: 1px solid rgba(0, 0, 0, 0.12);
+                box-shadow: 0 30px 80px rgba(0, 0, 0, 0.18);
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .chrome-titlebar {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 10px 16px 8px;
+                background: linear-gradient(180deg, #f1f3f4 0%, #e8eaed 100%);
+                border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+                cursor: move;
+                user-select: none;
+            }
+
+            .chrome-tab {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 8px 14px;
+                border-radius: 999px;
+                background: #ffffff;
+                color: #202124;
+                font-size: 13px;
+                font-weight: 600;
+                box-shadow: 0 1px 2px rgba(60, 64, 67, 0.08);
+            }
+
+            .chrome-tab.inactive {
+                color: #5f6368;
+                background: transparent;
+                box-shadow: none;
+            }
+
+            .tab-line {
+                width: 1px;
+                height: 20px;
+                background: rgba(0, 0, 0, 0.16);
+            }
+
+            .chrome-actions {
+                margin-left: auto;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .chrome-action {
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                background: #5f6368;
+                opacity: 0.6;
+            }
+
+            .chrome-toolbar {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 10px 16px;
+                background: #f8f9fa;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            }
+
+            .nav-btn {
+                width: 34px;
+                height: 34px;
+                border: none;
+                border-radius: 50%;
+                background: #ffffff;
+                color: #5f6368;
+                font-size: 18px;
+                display: grid;
+                place-items: center;
+                box-shadow: inset 0 0 0 1px rgba(60, 64, 67, 0.08);
+            }
+
+            .omnibox {
+                flex: 1;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 0 14px;
+                background: #ffffff;
+                border: 1px solid rgba(60, 64, 67, 0.12);
+                border-radius: 20px;
+                color: #3c4043;
+                font-size: 13px;
+                min-width: 0;
+                overflow: hidden;
+            }
+
+            .omnibox span {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+        </style>
+
+        <!--END STYLES-->
+    </head>
+    <body>
+        <!--FAKE BACKGROUND-->
+        <div id="fake-background"></div>
+        <!--END FAKE BACKGROUND-->
+        
+        <!--FAKE WINDOW-->
+        <div id="fake-window">
+            <div class="chrome-titlebar">
+                <div class="chrome-tab">New Tab</div>
+                <div class="chrome-tab inactive">+ New Tab</div>
+                <div class="tab-line"></div>
+                <div class="chrome-actions">
+                    <div class="chrome-action"></div>
+                    <div class="chrome-action"></div>
+                    <div class="chrome-action"></div>
+                </div>
+            </div>
+            <div class="chrome-toolbar">
+                <button class="nav-btn">‹</button>
+                <button class="nav-btn">›</button>
+                <div class="omnibox"><span>https://www.google.com</span></div>
+            </div>
+        </div>  
+
+        <!--SCRIPTS-->
+        <script>
+            const fakeWindow = document.getElementById('fake-window');
+            const titlebar = fakeWindow.querySelector('.chrome-titlebar');
+
+            const resizeMargin = 10;
+            let isDragging = false;
+            let isResizing = false;
+            let offsetX = 0;
+            let offsetY = 0;
+            let startWidth = 0;
+            let startHeight = 0;
+            let startX = 0;
+            let startY = 0;
+            let resizeEdge = '';
+
+            // Initialize centered pixel positioning to keep one-side resize behavior.
+            const rect = fakeWindow.getBoundingClientRect();
+            fakeWindow.style.left = `${(window.innerWidth - rect.width) / 2}px`;
+            fakeWindow.style.top = `${(window.innerHeight - rect.height) / 2}px`;
+
+            fakeWindow.addEventListener('mousedown', (e) => {
+                const rect = fakeWindow.getBoundingClientRect();
+                const isOnRight = e.clientX >= rect.right - resizeMargin && e.clientX <= rect.right + resizeMargin;
+                const isOnBottom = e.clientY >= rect.bottom - resizeMargin && e.clientY <= rect.bottom + resizeMargin;
+                const isOnHeader = e.target.closest('.chrome-titlebar');
+
+                if (isOnRight || isOnBottom) {
+                    isResizing = true;
+                    startWidth = rect.width;
+                    startHeight = rect.height;
+                    startX = e.clientX;
+                    startY = e.clientY;
+                    resizeEdge = isOnRight && isOnBottom ? 'both' : isOnRight ? 'right' : 'bottom';
+                    e.preventDefault();
+                } else if (isOnHeader) {
+                    isDragging = true;
+                    offsetX = e.clientX - rect.left;
+                    offsetY = e.clientY - rect.top;
+                }
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isResizing) {
+                    const dx = e.clientX - startX;
+                    const dy = e.clientY - startY;
+
+                    if (resizeEdge === 'right' || resizeEdge === 'both') {
+                        fakeWindow.style.width = `${Math.max(320, startWidth + dx)}px`;
+                    }
+                    if (resizeEdge === 'bottom' || resizeEdge === 'both') {
+                        fakeWindow.style.height = `${Math.max(240, startHeight + dy)}px`;
+                    }
+                } else if (isDragging) {
+                    fakeWindow.style.left = `${e.clientX - offsetX}px`;
+                    fakeWindow.style.top = `${e.clientY - offsetY}px`;
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+                isResizing = false;
+                resizeEdge = '';
+                fakeWindow.style.cursor = 'default';
+            });
+
+            fakeWindow.addEventListener('mousemove', (e) => {
+                const rect = fakeWindow.getBoundingClientRect();
+                const isOnRight = e.clientX >= rect.right - resizeMargin && e.clientX <= rect.right + resizeMargin;
+                const isOnBottom = e.clientY >= rect.bottom - resizeMargin && e.clientY <= rect.bottom + resizeMargin;
+                const isOnHeader = e.target.closest('.chrome-titlebar');
+
+                if (isOnRight && isOnBottom) {
+                    fakeWindow.style.cursor = 'nwse-resize';
+                } else if (isOnRight) {
+                    fakeWindow.style.cursor = 'ew-resize';
+                } else if (isOnBottom) {
+                    fakeWindow.style.cursor = 'ns-resize';
+                } else if (isOnHeader) {
+                    fakeWindow.style.cursor = 'move';
+                } else {
+                    fakeWindow.style.cursor = 'default';
+                }
+            });
+        </script>
+        
+        <!--END SCRIPTS-->
+
+    </body>
+</html>

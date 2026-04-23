@@ -11,7 +11,9 @@ const canvas = document.getElementById('game-canvas');
 const ctx = canvas.getContext('2d');
 
 // Game constants
-const WORLD_WIDTH = 2000;
+const WORLD_LEFT = -1000;
+const WORLD_RIGHT = 1000;
+const WORLD_WIDTH = WORLD_RIGHT - WORLD_LEFT;
 const CHARACTER_WIDTH = 40;
 const CHARACTER_HEIGHT = 40;
 const CHARACTER_SPEED = 5;
@@ -62,7 +64,7 @@ const kitchenObjects = [
 
 // Character object
 const character = {
-    x: 50,
+    x: 0,
     y: WORLD_HEIGHT - FLOOR_HEIGHT - CHARACTER_HEIGHT,
     width: CHARACTER_WIDTH,
     height: CHARACTER_HEIGHT,
@@ -112,16 +114,16 @@ function update() {
     character.x += character.vx;
 
     // Wall collision (left and right boundaries)
-    if (character.x < 0) {
-        character.x = 0;
+    if (character.x < WORLD_LEFT) {
+        character.x = WORLD_LEFT;
     }
-    if (character.x + character.width > WORLD_WIDTH) {
-        character.x = WORLD_WIDTH - character.width;
+    if (character.x + character.width > WORLD_RIGHT) {
+        character.x = WORLD_RIGHT - character.width;
     }
 
     // Update camera to follow character
     const targetCameraX = character.x - (canvas.width / 2) + (character.width / 2);
-    camera.x = Math.max(0, Math.min(targetCameraX, WORLD_WIDTH - canvas.width));
+    camera.x = Math.max(WORLD_LEFT, Math.min(targetCameraX, WORLD_RIGHT - canvas.width));
 }
 
 // Draw function
@@ -137,7 +139,7 @@ function draw() {
     ctx.translate(-camera.x, 0);
 
     // Draw rainbow gradient background
-    const gradient = ctx.createLinearGradient(0, 0, WORLD_WIDTH, 0);
+    const gradient = ctx.createLinearGradient(WORLD_LEFT, 0, WORLD_RIGHT, 0);
     gradient.addColorStop(0, 'red');
     gradient.addColorStop(0.17, 'orange');
     gradient.addColorStop(0.33, 'yellow');
@@ -146,11 +148,11 @@ function draw() {
     gradient.addColorStop(0.83, 'indigo');
     gradient.addColorStop(1, 'violet');
     ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, WORLD_WIDTH, WORLD_HEIGHT - FLOOR_HEIGHT);
+    ctx.fillRect(WORLD_LEFT, 0, WORLD_WIDTH, WORLD_HEIGHT - FLOOR_HEIGHT);
 
     // Draw floor
     ctx.fillStyle = 'rgb(120, 60, 20)';
-    ctx.fillRect(0, WORLD_HEIGHT - FLOOR_HEIGHT, WORLD_WIDTH, FLOOR_HEIGHT);
+    ctx.fillRect(WORLD_LEFT, WORLD_HEIGHT - FLOOR_HEIGHT, WORLD_WIDTH, FLOOR_HEIGHT);
 
     // Draw kitchen objects
     for (let obj of kitchenObjects) {
@@ -178,7 +180,7 @@ function draw() {
         ctx.fillStyle = 'white';
         ctx.font = '16px Arial';
         ctx.fillText(`Char X: ${Math.floor(character.x)}, Camera X: ${Math.floor(camera.x)}`, 10, 20);
-        ctx.fillText(`World Width: ${WORLD_WIDTH}`, 10, 40);
+        ctx.fillText(`World: ${WORLD_LEFT} to ${WORLD_RIGHT}`, 10, 40);
     }
 }
 

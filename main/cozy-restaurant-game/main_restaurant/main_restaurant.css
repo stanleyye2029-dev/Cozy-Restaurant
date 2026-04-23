@@ -16,106 +16,21 @@
     align-items: center;
     justify-content: center;
     z-index: 3000;
-    opacity: 0; /*switch back to 1 when we want the transition to show. */
+    opacity: 0;
     transition: opacity 5s ease;
     pointer-events: none;
 }
 
-/*#transition-screen.clear {
-    opacity: 0;
-}*/
-
-/* skip transition for now because we need to test the game without waiting for 5 seconds every time. */
-
-/*----------ACTUAL GAME STYLES----------*/
-
-/*---------------GAME CONTAINER-------------*/
+/*----------CANVAS GAME STYLES----------*/
 #game-container {
     width: 100%;
     height: 100vh;
+    background-color: #000;
     overflow: hidden;
 }
 
-/*---------------BACKGROUND-------------*/
-#background {
-    position: absolute;
-    top: 0;
-    left: 0;
+canvas {
+    display: block;
     width: 100%;
     height: 100%;
-    /*background-image: url('assets/pictures/restaurant_background.png'); uncomment this when we have the actual picture. */
-    background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet); /* Rainbow gradient for visibility during testing */
-    background-size: cover;
-    background-position: center;
-    z-index: 1;
-}
-
-/*---------------FLOOR-------------*/
-#floor {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 20%;
-    /*background-image: url('assets/pictures/restaurant_floor.png'); uncomment this when we have the actual picture. */
-    background-color: rgb(120, 60, 20); /* Fallback color (default color for now since we dont have the actual
-    picture yet.*/
-    background-size: cover;
-    background-position: center;
-    z-index: 5;
-    /*nice, i like this floor. maybe we can make the height smaller later if we want but this is fine for now. simplicity is key. */
-}
-
-#character-sprite {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    background-color: blue; /* Placeholder color for the character sprite */
-    /*background-image: url('assets/pictures/character_sprite.png'); Uncomment this when we have the actual sprite */
-    background-size: cover;
-    z-index: 10;
-}
-
-/*time to add kitchen object styles.*/
-
-/*---------------KITCHEN OBJECTS-------------*/
-.interior-object {
-    /* for this, we need to think.*/
-    /* this class will be used for all the kitchen objects like the stove, fridge, sink, etc. */
-    /* what styles would these object share in common? */
-    /* these objects need to scroll, how does position absolute work with scrolling? */
-    position: absolute;
-    background-size: cover;
-    background-position: center;
-}
-
-.interior-elements {
-    position: absolute; /* Span the full scrollable area */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-/* we need to add styles to the parent #restaurant in order to enable scrolling. */
-#restaurant {
-    position: relative;
-    width: 200%;
-    height: 100vh; /* viewport height to make sure it takes up the full height of the screen. */
-    overflow-x: hidden; /* hide scrollbar and prevent mouse scrolling. */
-    overflow-y: hidden; /* disable vertical scrolling. */
-    /* scrolling is now controlled programmatically by JavaScript when the character moves. */
-}
-
-/* okay, now kitchen objects.*/
-.stove {
-    width: 100px;
-    height: 100px;
-    background-color: red; /* Placeholder color for the stove */
-    /*background-image: url('assets/pictures/stove.png'); Uncomment this when we have the actual picture */
-    z-index: 5;
-    position: absolute;
-    left: 300px; /* Position the stove towards the right side of the restaurant */
-    bottom: 20%; /* Position the stove on the floor */
-    /* this is good for now.*/
 }

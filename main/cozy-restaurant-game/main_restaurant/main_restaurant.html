@@ -23,37 +23,9 @@
     <!--The video will be something like: (start you see sky, then pan down to see the restaurant.),
     then the vid will fade out and the game will fade in and start-->
 
-    <!--This branch will try out non-canvas game implementation, instead it will use html elements like divs and images styled and using
-    pictures.-->
-
-    <!--game elements will be created with html and css. no js attempt.-->
-
-    <!--We will see if it works.-->
+    <!--Canvas-based implementation for horizontal scrolling game-->
     <div id="game-container">
-        <div id="restaurant">
-            <div id="background"> <!-- We need to actually make the restaurant image so a replacement will be
-            needed for now.-->
-            <div class="interior-objects">
-                <!--so this part is for the things you would normally find inside the actual kitchen area of a restaurant-->
-                <!--therefore: stove, sink, refrigerator, storage-->
-                <div class="interior-object stove"></div>
-                <div class="interior-object sink"></div>
-                <div class="interior-object refrigerator"></div>
-                <div class="interior-object storage"></div>
-                <!-- well, now this part is complicated. I want these not to be in a specific position.-->
-                <!-- Why? Because this game  is a horizontal scrolling game.-->
-            </div> <!--This div will have the restaurant's interior elements-->
-
-            <!--We do actually need a character sprite.-->
-            <div id="character-sprite">
-                <!--This will be the character sprite.-->
-            </div>
-
-            <div id="floor"></div>
-            <!--For now, we will simply use colors for the background and ground.-->
-            <!--Ground will be a simple colored div.-->
-        </div>
-        
+        <canvas id="game-canvas"></canvas>
     </div>
 
     <!--<h1>Cozy Restaurant Game</h1>

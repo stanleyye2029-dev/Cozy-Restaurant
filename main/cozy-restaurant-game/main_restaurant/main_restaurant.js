@@ -3,7 +3,7 @@ function clearTransition() {
     transitionScreen.classList.add('clear');
     setTimeout(() => {
         transitionScreen.style.display = 'none';
-    }, 5000);
+    }, 2500);
 }
 
 /*----------CANVAS GAME IMPLEMENTATION----------*/

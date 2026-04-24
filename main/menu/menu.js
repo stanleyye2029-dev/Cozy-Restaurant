@@ -225,5 +225,5 @@ function initiateTransition(event){
     transition.classList.add("show");
     setTimeout(()=>{
         window.location.href = "../cozy-restaurant-game/main_restaurant/main_restaurant.html";
-    }, 2500);
+    }, 3000);
 }

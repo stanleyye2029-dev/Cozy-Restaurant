@@ -236,7 +236,7 @@ body {
     justify-content: center;
     z-index: 3000;
     opacity: 0;
-    transition: opacity 2.5s ease;
+    transition: opacity 3s ease-out;
     pointer-events: none;
 }
 #transition-screen.show {
